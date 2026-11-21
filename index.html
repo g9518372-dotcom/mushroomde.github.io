@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Грибная ферма — кликер про споры и мицелий</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#e8ebd9;--surf:#f5f6ea;--ink:#1f2a22;--mute:#5d695e;--red:#c8352b;--moss:#4f7236;--line:#cdd3b8;--onred:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17201a;--surf:#202b23;--ink:#e6ead8;--mute:#9aa795;--red:#e5604f;--moss:#8fb56a;--line:#33423a;--onred:#17201a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17201a;--surf:#202b23;--ink:#e6ead8;--mute:#9aa795;--red:#e5604f;--moss:#8fb56a;--line:#33423a;--onred:#17201a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.55;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+header a{color:var(--mute);text-decoration:none}
+.hero{padding:16px 0 48px;text-align:center}
+h1{font-size:clamp(2.6rem,11vw,4.6rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin:0 0 14px}
+.lead{font-size:1.15rem;color:var(--mute);max-width:30ch;margin:0 auto 24px}
+.cta{display:inline-block;background:var(--red);color:var(--onred);font-weight:800;font-size:1.1rem;padding:14px 30px;border-radius:999px;text-decoration:none}
+.cta:focus-visible,#m:focus-visible{outline:3px solid var(--moss);outline-offset:4px}
+.demo{margin:36px auto 0;max-width:260px;position:relative}
+#m{display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation;transition:transform .08s}
+#m:active{transform:scale(.94)}
+.hint{margin:8px 0 0;color:var(--mute);font-size:.95rem}
+.hint b{color:var(--ink)}
+section{padding:36px 0;border-top:1px solid var(--line)}
+h2{font-size:1.6rem;font-weight:800;margin:0 0 18px;letter-spacing:-.01em}
+.feat{display:grid;gap:18px;margin:0;padding:0;list-style:none}
+.feat b{display:block;font-weight:600;font-size:1.05rem}
+.feat span{color:var(--mute)}
+ol{margin:0;padding-left:1.3em}
+ol li{margin-bottom:10px}
+ol li::marker{color:var(--red);font-weight:800}
+.tiers{width:100%;border-collapse:collapse}
+.tiers td{padding:10px 0;border-bottom:1px solid var(--line)}
+.tiers td:last-child{text-align:right;color:var(--moss);font-weight:600}
+.end{text-align:center}
+footer{padding:28px 0 40px;color:var(--mute);font-size:.9rem;text-align:center}
+@media (min-width:640px){.feat{grid-template-columns:1fr 1fr;gap:24px}}
+.pop{position:absolute;left:50%;top:30%;pointer-events:none;font-weight:800;color:var(--red);animation:up .8s ease-out forwards}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none;opacity:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><span>Грибная ферма</span><a href="#how">Как играть</a></header>
+
+<div class="hero">
+<h1>Выращивай грибы. Кликай. Расти.</h1>
+<p class="lead">Простой кликер: собирай споры, покупай грибников и теплицы, пока ферма не станет лесом.</p>
+<a class="cta" href="game.html">Играть бесплатно</a>
+<div class="demo">
+<button id="m" aria-label="Нажми на гриб">
+<svg viewBox="0 0 200 200" width="100%" aria-hidden="true">
+<path d="M78 112h44l6 62c0 8-12 14-28 14s-28-6-28-14z" fill="#efe6cf" stroke="#1f2a22" stroke-width="4" stroke-linejoin="round"/>
+<path d="M12 116C12 54 52 16 100 16s88 38 88 100c0 8-8 12-16 12H28c-8 0-16-4-16-12z" fill="#c8352b" stroke="#1f2a22" stroke-width="4" stroke-linejoin="round"/>
+<g fill="#f5f6ea"><circle cx="60" cy="78" r="13"/><circle cx="108" cy="52" r="10"/><circle cx="142" cy="92" r="15"/><circle cx="92" cy="98" r="8"/><circle cx="40" cy="108" r="6"/></g>
+</svg>
+</button>
+<p class="hint">Попробуй: собрано спор — <b id="c">0</b></p>
+</div>
+</div>
+
+<section>
+<h2>Что внутри</h2>
+<ul class="feat">
+<li><b>Один клик — одна спора</b><span>Нажимай на гриб и копи споры. Лупа и пинцет делают каждый клик сильнее.</span></li>
+<li><b>Ферма работает сама</b><span>Мицелий, грибник, колода, теплица и свой лес собирают споры без тебя.</span></li>
+<li><b>Играй в перерывах</b><span>Пока тебя нет, ферма продолжает расти — до 8 часов.</span></li>
+<li><b>Прогресс сохраняется</b><span>Закрыл вкладку, вернулся через день — всё на месте. Установка не нужна.</span></li>
+</ul>
+</section>
+
+<section id="how">
+<h2>Как играть</h2>
+<ol>
+<li>Нажимай на гриб и собирай споры.</li>
+<li>Покупай улучшения: чем больше их, тем быстрее растёт ферма.</li>
+<li>Копи на следующий уровень и разрастайся до целого леса.</li>
+</ol>
+</section>
+
+<section>
+<h2>Твоя ферма растёт так</h2>
+<table class="tiers">
+<tr><td>Мицелий</td><td>+0,2 в секунду</td></tr>
+<tr><td>Грибник</td><td>+1,5 в секунду</td></tr>
+<tr><td>Колода</td><td>+9 в секунду</td></tr>
+<tr><td>Теплица</td><td>+50 в секунду</td></tr>
+<tr><td>Свой лес</td><td>+280 в секунду</td></tr>
+</table>
+</section>
+
+<section class="end">
+<h2>Готов собирать споры?</h2>
+<a class="cta" href="game.html">Играть бесплатно</a>
+</section>
+
+<footer>Грибная ферма · браузерная игра, работает на телефоне и компьютере</footer>
+</div>
+<script>
+(function(){
+var n=0,c=document.getElementById("c"),d=document.querySelector(".demo");
+document.getElementById("m").addEventListener("click",function(){
+n++;c.textContent=n;
+var p=document.createElement("span");p.className="pop";p.textContent="+1";
+p.style.marginLeft=(Math.random()*60-30)+"px";d.appendChild(p);
+setTimeout(function(){p.remove()},800)});
+})();
+</script>
+</body>
+</html>
